@@ -123,7 +123,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Dettagli Richiesta</h3>
-                <button class="modal-close" onclick="closeModal()">
+                <button class="modal-close" onclick="closeRequestModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -131,7 +131,7 @@
                 <!-- I dettagli verranno caricati qui -->
             </div>
             <div class="modal-footer">
-                <button class="btn-secondary" onclick="closeModal()">Chiudi</button>
+                <button class="btn-secondary" onclick="closeRequestModal()">Chiudi</button>
                 <button class="btn-primary" onclick="changeStatus()">Cambia Stato</button>
             </div>
         </div>
@@ -951,7 +951,7 @@
         }
 
         // Chiudi modal
-        function closeModal() {
+        function closeRequestModal() {
             document.getElementById('requestModal').style.display = 'none';
         }
 
@@ -985,7 +985,7 @@
         // Chiudi modal cliccando fuori
         document.getElementById('requestModal').addEventListener('click', function(e) {
             if (e.target === this) {
-                closeModal();
+                closeRequestModal();
             }
         });
     </script>
