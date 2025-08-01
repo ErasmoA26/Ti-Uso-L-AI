@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ti Uso L'AI - Tu mi dici cosa vuoi, io lo realizzo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Cursor personalizzato -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-trail"></div>
+    
+    <!-- Particelle di sfondo -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Orb interattivi -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="orb orb-5"></div>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-bold">TI USO</span>
+                <span class="logo-light">L'AI</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a onclick="openModal('chi-siamo-modal')">Chi Siamo</a></li>
+                <li><a onclick="openModal('tecnologia-modal')">Tecnologia</a></li>
+                <li><a onclick="openModal('progetti-modal')">Progetti</a></li>
+                <li><a onclick="openModal('contatti-modal')">Contatti</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="btn-chat" onclick="scrollToRegistration()">Inizia Ora</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- Hologramma 3D centrale -->
+            <div class="hologram-container">
+                <div class="hologram-glow"></div>
+                <div class="hologram-core">
+                    <div class="hologram-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="hologram-rings">
+                        <div class="ring ring-1"></div>
+                        <div class="ring ring-2"></div>
+                        <div class="ring ring-3"></div>
+                    </div>
+                    <div class="energy-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+                </div>
+                <div class="hologram-lines">
+                    <div class="hologram-line line-1"></div>
+                    <div class="hologram-line line-2"></div>
+                    <div class="hologram-line line-3"></div>
+                    <div class="hologram-line line-4"></div>
+                </div>
+            </div>
+
+            <!-- Testo principale -->
+            <div class="hero-text">
+                <h1 class="hero-title typing-animation">Tu mi dici cosa vuoi, io lo realizzo con l'AI.</h1>
+                <p class="hero-subtitle">L'intelligenza artificiale può sembrare difficile, tu pensi all'idea, io al risultato.</p>
+            </div>
+
+            <!-- Pulsante CTA -->
+            <div class="cta-container">
+                <button class="btn-demo" onclick="scrollToRegistration()">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Pianifica Demo</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Tecnologie AI Avanzate -->
+    <section class="preorders">
+        <div class="container">
+            <div class="preorder-text">
+                <h2>Tecnologie AI Avanzate</h2>
+                <p>Utilizziamo le migliori tecnologie AI per i tuoi progetti</p>
+            </div>
+            <div class="partner-cards">
+                <a href="https://cursor.sh" target="_blank" class="partner-card">
+                    <i class="fas fa-code"></i>
+                    <span>Cursor</span>
+                </a>
+                <a href="https://claude.ai" target="_blank" class="partner-card">
+                    <i class="fas fa-brain"></i>
+                    <span>Claude</span>
+                </a>
+                <a href="https://n8n.io" target="_blank" class="partner-card">
+                    <i class="fas fa-cogs"></i>
+                    <span>N8N</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Tecnologia Slide -->
+    <section class="tecnologia-slide">
+        <div class="container">
+            <h2 class="section-title">Tecnologia</h2>
+            <div class="workflow-grid">
+                <div class="workflow-card">
+                    <div class="workflow-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="workflow-step">
+                        <span class="step-number">01</span>
+                        <h3>Analisi</h3>
+                        <p>Analizziamo le tue esigenze e creiamo una strategia personalizzata per il tuo progetto.</p>
+                    </div>
+                </div>
+                <div class="workflow-card">
+                    <div class="workflow-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div class="workflow-step">
+                        <span class="step-number">02</span>
+                        <h3>Creazione</h3>
+                        <p>Utilizziamo le tecnologie AI più avanzate per creare la soluzione perfetta per te.</p>
+                    </div>
+                </div>
+                <div class="workflow-card">
+                    <div class="workflow-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="workflow-step">
+                        <span class="step-number">03</span>
+                        <h3>Consegna</h3>
+                        <p>Ti consegniamo il risultato finale, pronto per essere utilizzato immediatamente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Progetti Slide -->
+    <section class="progetti-slide">
+        <div class="container">
+            <h2 class="section-title">Progetti</h2>
+            <div class="progetti-grid">
+                <div class="progetto-card">
+                    <div class="progetto-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>E-commerce</h3>
+                    <p>Piattaforme di vendita online complete con gestione prodotti, pagamenti e logistica.</p>
+                </div>
+                <div class="progetto-card">
+                    <div class="progetto-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Chatbot AI</h3>
+                    <p>Assistenti virtuali intelligenti per customer service e supporto clienti 24/7.</p>
+                </div>
+                <div class="progetto-card">
+                    <div class="progetto-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analisi Dati</h3>
+                    <p>Dashboard e report automatizzati per monitorare performance e prendere decisioni informate.</p>
+                </div>
+                <div class="progetto-card">
+                    <div class="progetto-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Automazioni</h3>
+                    <p>Workflow automatizzati che riducono il lavoro manuale e aumentano l'efficienza.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overlay per le sezioni modali -->
+    <div class="modal-overlay" id="modalOverlay">
+        <!-- Sezione Chi Sono Modal -->
+        <div class="modal-section" id="chi-siamo-modal">
+            <div class="modal-header">
+                <h2>Chi Siamo</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="chi-siamo-content">
+                    <div class="chi-siamo-text">
+                        <h3>Esperti di AI e Automazione</h3>
+                        <p>Ci occupiamo di trasformare le tue idee in realtà utilizzando le tecnologie AI più avanzate. Non devi essere un esperto tecnico - tu pensi all'obiettivo, noi ci occupiamo di tutto il resto.</p>
+                        <p>Specializzati in sviluppo web, automazioni, chatbot e soluzioni personalizzate che semplificano il tuo lavoro e aumentano la tua produttività.</p>
+                    </div>
+                    <div class="chi-siamo-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Progetti Completati</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Soddisfazione Clienti</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24h</span>
+                            <span class="stat-label">Tempo Medio Consegna</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione Tecnologia Modal -->
+        <div class="modal-section" id="tecnologia-modal">
+            <div class="modal-header">
+                <h2>Tecnologia</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="workflow-grid">
+                    <div class="workflow-card">
+                        <div class="workflow-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">01</span>
+                            <h3>Analisi</h3>
+                            <p>Analizzo le tue esigenze e creo una strategia personalizzata per il tuo progetto.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-card">
+                        <div class="workflow-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">02</span>
+                            <h3>Creazione</h3>
+                            <p>Utilizzo le tecnologie AI più avanzate per creare la soluzione perfetta per te.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-card">
+                        <div class="workflow-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="workflow-step">
+                            <span class="step-number">03</span>
+                            <h3>Consegna</h3>
+                            <p>Ti consegno il risultato finale, pronto per essere utilizzato immediatamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione Progetti Modal -->
+        <div class="modal-section" id="progetti-modal">
+            <div class="modal-header">
+                <h2>Progetti</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="progetti-grid">
+                    <div class="progetto-card">
+                        <div class="progetto-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3>E-commerce</h3>
+                        <p>Piattaforme di vendita online complete con gestione prodotti, pagamenti e logistica.</p>
+                    </div>
+                    <div class="progetto-card">
+                        <div class="progetto-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Chatbot AI</h3>
+                        <p>Assistenti virtuali intelligenti per customer service e supporto clienti 24/7.</p>
+                    </div>
+                    <div class="progetto-card">
+                        <div class="progetto-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Analisi Dati</h3>
+                        <p>Dashboard e report automatizzati per monitorare performance e prendere decisioni informate.</p>
+                    </div>
+                    <div class="progetto-card">
+                        <div class="progetto-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>Automazioni</h3>
+                        <p>Workflow automatizzati che riducono il lavoro manuale e aumentano l'efficienza.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione Contatti Modal -->
+        <div class="modal-section" id="contatti-modal">
+            <div class="modal-header">
+                <h2>Contatti</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Pronto a Trasformare le Tue Idee in Realtà?</h3>
+                        <p>Dimmi cosa ti serve e lo creo per te con l'AI. Semplice, veloce, efficace.</p>
+                    </div>
+                    <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Il tuo nome" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="La tua email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Dimmi cosa ti serve..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            <span class="btn-text">Invia Richiesta</span>
+                            <span class="btn-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Invio...
+                            </span>
+                        </button>
+                    </form>
+                    <div id="contactSuccess" class="success-message" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Richiesta inviata! Ti contatterò presto</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .success-message {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.2), rgba(40, 167, 69, 0.1));
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .success-message i {
+            font-size: 20px;
+        }
+
+        .btn-loading {
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+
+    </style>
+
+
+
+    <!-- Sezione Contatti Finale -->
+    <section class="contact-final">
+        <div class="container">
+            <div class="contact-final-content">
+                <div class="contact-final-text">
+                    <h2>Pronto a Trasformare le Tue Idee in Realtà?</h2>
+                    <p>Dimmi cosa ti serve e lo creo per te con l'AI. Semplice, veloce, efficace.</p>
+                </div>
+                <div class="contact-final-form">
+                    <form class="contact-form-final">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="final-name" name="name" placeholder="Il tuo nome" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="final-email" name="email" placeholder="La tua email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group phone-group">
+                                <select id="phone-prefix" name="phone-prefix" class="phone-prefix-select">
+                                    <option value="+39">🇮🇹 +39 (Italia)</option>
+                                    <option value="+1">🇺🇸 +1 (USA/Canada)</option>
+                                    <option value="+44">🇬🇧 +44 (UK)</option>
+                                    <option value="+33">🇫🇷 +33 (Francia)</option>
+                                    <option value="+49">🇩🇪 +49 (Germania)</option>
+                                    <option value="+34">🇪🇸 +34 (Spagna)</option>
+                                    <option value="+31">🇳🇱 +31 (Olanda)</option>
+                                    <option value="+32">🇧🇪 +32 (Belgio)</option>
+                                    <option value="+41">🇨🇭 +41 (Svizzera)</option>
+                                    <option value="+43">🇦🇹 +43 (Austria)</option>
+                                    <option value="+46">🇸🇪 +46 (Svezia)</option>
+                                    <option value="+47">🇳🇴 +47 (Norvegia)</option>
+                                    <option value="+45">🇩🇰 +45 (Danimarca)</option>
+                                    <option value="+358">🇫🇮 +358 (Finlandia)</option>
+                                    <option value="+48">🇵🇱 +48 (Polonia)</option>
+                                    <option value="+420">🇨🇿 +420 (Rep. Ceca)</option>
+                                    <option value="+36">🇭🇺 +36 (Ungheria)</option>
+                                    <option value="+40">🇷🇴 +40 (Romania)</option>
+                                    <option value="+421">🇸🇰 +421 (Slovacchia)</option>
+                                    <option value="+386">🇸🇮 +386 (Slovenia)</option>
+                                    <option value="+385">🇭🇷 +385 (Croazia)</option>
+                                    <option value="+371">🇱🇻 +371 (Lettonia)</option>
+                                    <option value="+372">🇪🇪 +372 (Estonia)</option>
+                                    <option value="+370">🇱🇹 +370 (Lituania)</option>
+                                    <option value="+380">🇺🇦 +380 (Ucraina)</option>
+                                    <option value="+375">🇧🇾 +375 (Bielorussia)</option>
+                                    <option value="+7">🇷🇺 +7 (Russia)</option>
+                                    <option value="+90">🇹🇷 +90 (Turchia)</option>
+                                    <option value="+30">🇬🇷 +30 (Grecia)</option>
+                                    <option value="+351">🇵🇹 +351 (Portogallo)</option>
+                                    <option value="+353">🇮🇪 +353 (Irlanda)</option>
+                                    <option value="+352">🇱🇺 +352 (Lussemburgo)</option>
+                                    <option value="+356">🇲🇹 +356 (Malta)</option>
+                                    <option value="+357">🇨🇾 +357 (Cipro)</option>
+                                    <option value="+354">🇮🇸 +354 (Islanda)</option>
+                                    <option value="+355">🇦🇱 +355 (Albania)</option>
+                                    <option value="+359">🇧🇬 +359 (Bulgaria)</option>
+                                    <option value="+373">🇲🇩 +373 (Moldavia)</option>
+                                    <option value="+374">🇦🇲 +374 (Armenia)</option>
+                                    <option value="+376">🇦🇩 +376 (Andorra)</option>
+                                    <option value="+377">🇲🇨 +377 (Monaco)</option>
+                                    <option value="+378">🇸🇲 +378 (San Marino)</option>
+                                    <option value="+379">🇻🇦 +379 (Città del Vaticano)</option>
+                                    <option value="+381">🇷🇸 +381 (Serbia)</option>
+                                    <option value="+382">🇲🇪 +382 (Montenegro)</option>
+                                    <option value="+383">🇽🇰 +383 (Kosovo)</option>
+                                    <option value="+387">🇧🇦 +387 (Bosnia ed Erzegovina)</option>
+                                    <option value="+389">🇲🇰 +389 (Macedonia del Nord)</option>
+                                    <option value="+81">🇯🇵 +81 (Giappone)</option>
+                                    <option value="+82">🇰🇷 +82 (Corea del Sud)</option>
+                                    <option value="+86">🇨🇳 +86 (Cina)</option>
+                                    <option value="+91">🇮🇳 +91 (India)</option>
+                                    <option value="+61">🇦🇺 +61 (Australia)</option>
+                                    <option value="+64">🇳🇿 +64 (Nuova Zelanda)</option>
+                                    <option value="+55">🇧🇷 +55 (Brasile)</option>
+                                    <option value="+54">🇦🇷 +54 (Argentina)</option>
+                                    <option value="+56">🇨🇱 +56 (Cile)</option>
+                                    <option value="+57">🇨🇴 +57 (Colombia)</option>
+                                    <option value="+58">🇻🇪 +58 (Venezuela)</option>
+                                    <option value="+593">🇪🇨 +593 (Ecuador)</option>
+                                    <option value="+51">🇵🇪 +51 (Perù)</option>
+                                    <option value="+52">🇲🇽 +52 (Messico)</option>
+                                    <option value="+972">🇮🇱 +972 (Israele)</option>
+                                    <option value="+971">🇦🇪 +971 (Emirati Arabi)</option>
+                                    <option value="+966">🇸🇦 +966 (Arabia Saudita)</option>
+                                    <option value="+974">🇶🇦 +974 (Qatar)</option>
+                                    <option value="+973">🇧🇭 +973 (Bahrain)</option>
+                                    <option value="+965">🇰🇼 +965 (Kuwait)</option>
+                                    <option value="+968">🇴🇲 +968 (Oman)</option>
+                                    <option value="+98">🇮🇷 +98 (Iran)</option>
+                                    <option value="+964">🇮🇶 +964 (Iraq)</option>
+                                    <option value="+963">🇸🇾 +963 (Siria)</option>
+                                    <option value="+961">🇱🇧 +961 (Libano)</option>
+                                    <option value="+962">🇯🇴 +962 (Giordania)</option>
+                                    <option value="+20">🇪🇬 +20 (Egitto)</option>
+                                    <option value="+212">🇲🇦 +212 (Marocco)</option>
+                                    <option value="+216">🇹🇳 +216 (Tunisia)</option>
+                                    <option value="+213">🇩🇿 +213 (Algeria)</option>
+                                    <option value="+234">🇳🇬 +234 (Nigeria)</option>
+                                    <option value="+254">🇰🇪 +254 (Kenya)</option>
+                                    <option value="+27">🇿🇦 +27 (Sud Africa)</option>
+                                    <option value="+233">🇬🇭 +233 (Ghana)</option>
+                                    <option value="+225">🇨🇮 +225 (Costa d'Avorio)</option>
+                                    <option value="+221">🇸🇳 +221 (Senegal)</option>
+                                    <option value="+237">🇨🇲 +237 (Camerun)</option>
+                                    <option value="+236">🇨🇫 +236 (Rep. Centrafricana)</option>
+                                    <option value="+235">🇹🇩 +235 (Ciad)</option>
+                                    <option value="+242">🇨🇬 +242 (Congo)</option>
+                                    <option value="+243">🇨🇩 +243 (Rep. Dem. Congo)</option>
+                                    <option value="+240">🇬🇶 +240 (Guinea Equatoriale)</option>
+                                    <option value="+241">🇬🇦 +241 (Gabon)</option>
+                                    <option value="+245">🇬🇼 +245 (Guinea-Bissau)</option>
+                                    <option value="+248">🇸🇨 +248 (Seychelles)</option>
+                                    <option value="+249">🇸🇩 +249 (Sudan)</option>
+                                    <option value="+250">🇷🇼 +250 (Ruanda)</option>
+                                    <option value="+251">🇪🇹 +251 (Etiopia)</option>
+                                    <option value="+252">🇸🇴 +252 (Somalia)</option>
+                                    <option value="+253">🇩🇯 +253 (Gibuti)</option>
+                                    <option value="+255">🇹🇿 +255 (Tanzania)</option>
+                                    <option value="+256">🇺🇬 +256 (Uganda)</option>
+                                    <option value="+257">🇧🇮 +257 (Burundi)</option>
+                                    <option value="+258">🇲🇿 +258 (Mozambico)</option>
+                                    <option value="+260">🇿🇲 +260 (Zambia)</option>
+                                    <option value="+261">🇲🇬 +261 (Madagascar)</option>
+                                    <option value="+262">🇷🇪 +262 (Réunion)</option>
+                                    <option value="+263">🇿🇼 +263 (Zimbabwe)</option>
+                                    <option value="+264">🇳🇦 +264 (Namibia)</option>
+                                    <option value="+265">🇲🇼 +265 (Malawi)</option>
+                                    <option value="+266">🇱🇸 +266 (Lesotho)</option>
+                                    <option value="+267">🇧🇼 +267 (Botswana)</option>
+                                    <option value="+268">🇸🇿 +268 (Eswatini)</option>
+                                    <option value="+269">🇰🇲 +269 (Comore)</option>
+                                    <option value="+290">🇸🇭 +290 (Sant'Elena)</option>
+                                    <option value="+291">🇪🇷 +291 (Eritrea)</option>
+                                </select>
+                                <input type="tel" id="final-phone" name="phone" placeholder="Il tuo telefono" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="final-message" name="message" placeholder="Dimmi cosa ti serve..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit-final">
+                            <i class="fas fa-paper-plane"></i>
+                            Invia Richiesta
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ti Uso L'AI. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Action Button -->
+    <div class="fab" id="fab">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <h3>AIDA - AI Assistant</h3>
+                <div class="message-counter">Messaggi: <span id="messageCount">0</span>/10</div>
+            </div>
+            <button class="close-chat" id="closeChat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <div class="message-content">
+                    <i class="fas fa-robot"></i>
+                    <span>Ciao! 👋 Come posso aiutarti oggi?</span>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="chatInput" placeholder="Scrivi il tuo messaggio..." maxlength="500">
+            <button id="sendMessage">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

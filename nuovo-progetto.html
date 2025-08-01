@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richiedi Nuovo Progetto - Ti Uso L'AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Stili specifici per la pagina nuovo progetto */
+        .project-form-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        .project-form-card {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .project-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border: none;
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-back {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-back:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .project-form-container {
+                padding: 1rem;
+            }
+
+            .project-form-card {
+                padding: 2rem;
+            }
+
+            .form-header h1 {
+                font-size: 2rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-submit,
+            .btn-back {
+                width: 100%;
+            }
+        }
+
+        /* Particelle di sfondo */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 0s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 1s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 2s; }
+        .particle:nth-child(10) { left: 95%; animation-delay: 3s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particelle di sfondo -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="project-form-container">
+        <div class="project-form-card">
+            <div class="form-header">
+                <h1>Richiedi Nuovo Progetto</h1>
+                <p>Compila il form per richiedere il tuo progetto personalizzato</p>
+            </div>
+
+            <form class="project-form" id="projectForm">
+                <div class="form-group">
+                    <label for="projectName">Nome Progetto *</label>
+                    <input type="text" id="projectName" name="projectName" placeholder="Inserisci il nome del progetto" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectType">Tipo Progetto *</label>
+                    <select id="projectType" name="projectType" required>
+                        <option value="">Seleziona tipo progetto</option>
+                        <option value="sito-web">Sito Web</option>
+                        <option value="app-mobile">App Mobile</option>
+                        <option value="ecommerce">E-commerce</option>
+                        <option value="chatbot">Chatbot</option>
+                        <option value="altro">Altro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDescription">Descrizione *</label>
+                    <textarea id="projectDescription" name="projectDescription" placeholder="Descrivi in dettaglio il tuo progetto, le funzionalità richieste e i tuoi obiettivi..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectBudget">Budget *</label>
+                    <select id="projectBudget" name="projectBudget" required>
+                        <option value="">Seleziona budget</option>
+                        <option value="500-1000">€500 - €1.000</option>
+                        <option value="1000-3000">€1.000 - €3.000</option>
+                        <option value="3000-5000">€3.000 - €5.000</option>
+                        <option value="5000+">€5.000+</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="clientEmail">Email Cliente *</label>
+                    <input type="email" id="clientEmail" name="clientEmail" placeholder="La tua email" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-back" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i>
+                        Torna Indietro
+                    </button>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i>
+                        Invia Richiesta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Gestione form submit
+        document.getElementById('projectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simula invio
+            const submitBtn = this.querySelector('.btn-submit');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Invio in corso...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Richiesta inviata!');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                this.reset();
+            }, 1500);
+        });
+
+        // Funzione per tornare indietro
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // Effetti di interazione
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Animazione di entrata per il form
+        window.addEventListener('load', function() {
+            const formCard = document.querySelector('.project-form-card');
+            formCard.style.opacity = '0';
+            formCard.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                formCard.style.transition = 'all 0.6s ease-out';
+                formCard.style.opacity = '1';
+                formCard.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richiesta Progetto - Ti Uso L'AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Stili per il sistema di chat CRM */
+        .chat-system {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Form iniziale */
+        .initial-form {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .form-card {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .quick-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-start-chat {
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border: none;
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-start-chat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Layout Chat CRM */
+        .chat-layout {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-info h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .btn-back-home {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back-home:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+
+        .chat-main {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .chat-sidebar {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .client-info {
+            margin-bottom: 2rem;
+        }
+
+        .client-info h3 {
+            color: #00ff88;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            margin-bottom: 1rem;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 1rem;
+            border-radius: 12px;
+            position: relative;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            color: #000;
+            margin-left: auto;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        .message.user .message-time {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .message.bot .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .chat-input-area {
+            padding: 1.5rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #fff;
+            font-size: 1rem;
+            resize: none;
+            min-height: 50px;
+            max-height: 120px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-send {
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border: none;
+            color: #000;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            height: 50px;
+        }
+
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chat-sidebar {
+                display: none;
+            }
+
+            .chat-header {
+                padding: 1rem;
+            }
+
+            .header-info h2 {
+                font-size: 1rem;
+            }
+
+            .messages-container {
+                padding: 1rem;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+
+            .chat-input-area {
+                padding: 1rem;
+            }
+
+            .input-container {
+                gap: 0.5rem;
+            }
+
+            .form-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+
+        /* Particelle di sfondo */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 0s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 1s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 2s; }
+        .particle:nth-child(10) { left: 95%; animation-delay: 3s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particelle di sfondo -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="chat-system">
+        <!-- Form iniziale -->
+        <div class="initial-form" id="initialForm">
+            <div class="form-card">
+                <div class="form-header">
+                    <h1>Inizia la Tua Richiesta</h1>
+                    <p>Compila i tuoi dati per iniziare a parlare del tuo progetto</p>
+                </div>
+
+                <form class="quick-form" id="quickForm">
+                    <div class="form-group">
+                        <label for="clientName">Nome Completo *</label>
+                        <input type="text" id="clientName" name="clientName" placeholder="Il tuo nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientEmail">Email *</label>
+                        <input type="email" id="clientEmail" name="clientEmail" placeholder="La tua email" required>
+                    </div>
+
+                    <button type="submit" class="btn-start-chat">
+                        <i class="fas fa-comments"></i>
+                        Inizia Chat
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Layout Chat CRM -->
+        <div class="chat-layout" id="chatLayout">
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="header-info">
+                    <h2 id="headerTitle">Richiesta Progetto</h2>
+                    <p id="headerSubtitle">Chat in tempo reale</p>
+                </div>
+                <button class="btn-back-home" onclick="goBackHome()">
+                    <i class="fas fa-home"></i>
+                    Home
+                </button>
+            </div>
+
+            <!-- Main Area -->
+            <div class="chat-main">
+                <!-- Sidebar -->
+                <div class="chat-sidebar">
+                    <div class="client-info">
+                        <h3>Informazioni Cliente</h3>
+                        <div class="info-item">
+                            <div class="info-label">Nome</div>
+                            <div class="info-value" id="sidebarName">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Email</div>
+                            <div class="info-value" id="sidebarEmail">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Data Registrazione</div>
+                            <div class="info-value" id="sidebarDate">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Messaggi</div>
+                            <div class="info-value" id="sidebarMessages">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="chat-area">
+                    <!-- Messages Container -->
+                    <div class="messages-container" id="messagesContainer">
+                        <!-- I messaggi verranno aggiunti qui dinamicamente -->
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="chat-input-area">
+                        <div class="input-container">
+                            <textarea 
+                                class="message-input" 
+                                id="messageInput" 
+                                placeholder="Scrivi il tuo messaggio..."
+                                rows="1"
+                            ></textarea>
+                            <button class="btn-send" id="sendButton" onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ChatSystem {
+            constructor() {
+                this.currentUser = null;
+                this.messages = [];
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.checkExistingSession();
+            }
+
+            setupEventListeners() {
+                // Form iniziale
+                document.getElementById('quickForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.startChat();
+                });
+
+                // Input messaggio
+                const messageInput = document.getElementById('messageInput');
+                const sendButton = document.getElementById('sendButton');
+
+                messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                messageInput.addEventListener('input', () => {
+                    // Auto-resize textarea
+                    messageInput.style.height = 'auto';
+                    messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
+                });
+
+                sendButton.addEventListener('click', () => {
+                    this.sendMessage();
+                });
+            }
+
+            checkExistingSession() {
+                const savedUser = localStorage.getItem('chatUser');
+                if (savedUser) {
+                    this.currentUser = JSON.parse(savedUser);
+                    this.loadMessages();
+                    this.showChatLayout();
+                }
+            }
+
+            startChat() {
+                const formData = new FormData(document.getElementById('quickForm'));
+                const name = formData.get('clientName');
+                const email = formData.get('clientEmail');
+
+                if (!name || !email) {
+                    alert('Per favore compila tutti i campi');
+                    return;
+                }
+
+                // Crea utente
+                this.currentUser = {
+                    name: name,
+                    email: email,
+                    registrationDate: new Date().toISOString(),
+                    id: email // Usa email come ID unico
+                };
+
+                // Salva utente
+                localStorage.setItem('chatUser', JSON.stringify(this.currentUser));
+
+                // Carica messaggi esistenti o crea messaggio di benvenuto
+                this.loadMessages();
+                if (this.messages.length === 0) {
+                    this.addBotMessage('Ciao ' + name + '! 👋 Grazie per aver iniziato la tua richiesta. Dimmi pure del tuo progetto e sarò felice di aiutarti!');
+                }
+
+                this.showChatLayout();
+            }
+
+            loadMessages() {
+                const savedMessages = localStorage.getItem(`chatMessages_${this.currentUser.id}`);
+                this.messages = savedMessages ? JSON.parse(savedMessages) : [];
+                this.renderMessages();
+            }
+
+            saveMessages() {
+                localStorage.setItem(`chatMessages_${this.currentUser.id}`, JSON.stringify(this.messages));
+            }
+
+            sendMessage() {
+                const messageInput = document.getElementById('messageInput');
+                const message = messageInput.value.trim();
+
+                if (!message) return;
+
+                // Aggiungi messaggio utente
+                this.addUserMessage(message);
+
+                // Pulisci input
+                messageInput.value = '';
+                messageInput.style.height = 'auto';
+
+                // Simula risposta bot
+                setTimeout(() => {
+                    this.generateBotResponse(message);
+                }, 1000);
+
+                // Invia email (simulato)
+                this.sendEmailNotification(message);
+            }
+
+            addUserMessage(text) {
+                const message = {
+                    id: Date.now(),
+                    text: text,
+                    sender: 'user',
+                    timestamp: new Date().toISOString()
+                };
+
+                this.messages.push(message);
+                this.saveMessages();
+                this.renderMessages();
+            }
+
+            addBotMessage(text) {
+                const message = {
+                    id: Date.now(),
+                    text: text,
+                    sender: 'bot',
+                    timestamp: new Date().toISOString()
+                };
+
+                this.messages.push(message);
+                this.saveMessages();
+                this.renderMessages();
+            }
+
+            generateBotResponse(userMessage) {
+                const message = userMessage.toLowerCase();
+                
+                // Risposte pre-programmate
+                let response = '';
+                
+                if (message.includes('ciao') || message.includes('salve')) {
+                    response = 'Ciao! Come posso aiutarti con il tuo progetto?';
+                } else if (message.includes('costo') || message.includes('prezzo')) {
+                    response = 'I costi variano in base alla complessità del progetto. Puoi dirmi di più su quello che hai in mente?';
+                } else if (message.includes('tempo') || message.includes('quando')) {
+                    response = 'I tempi di realizzazione dipendono dalla complessità. Generalmente parliamo di 1-3 settimane per progetti standard.';
+                } else if (message.includes('sito') || message.includes('web')) {
+                    response = 'Perfetto! Siti web sono la nostra specialità. Che tipo di sito ti serve? E-commerce, portfolio, aziendale?';
+                } else if (message.includes('app') || message.includes('mobile')) {
+                    response = 'Ottimo! Le app mobile sono molto richieste. Hai già un\'idea delle funzionalità principali?';
+                } else if (message.includes('ai') || message.includes('intelligenza')) {
+                    response = 'L\'AI può rivoluzionare il tuo business! Automazioni, chatbot, analisi dati... dimmi cosa ti interessa di più.';
+                } else {
+                    response = 'Interessante! Grazie per avermi raccontato del tuo progetto. Posso aiutarti a definire meglio i dettagli. Hai domande specifiche?';
+                }
+
+                this.addBotMessage(response);
+            }
+
+            sendEmailNotification(message) {
+                // Simula invio email
+                console.log(`Email inviata: Nuovo messaggio da ${this.currentUser.name} - ${this.currentUser.email}: ${message}`);
+                
+                // In un'implementazione reale, qui andrebbe la chiamata API per inviare l'email
+                // fetch('/api/send-email', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         from: this.currentUser.email,
+                //         name: this.currentUser.name,
+                //         message: message
+                //     })
+                // });
+            }
+
+            renderMessages() {
+                const container = document.getElementById('messagesContainer');
+                container.innerHTML = '';
+
+                this.messages.forEach(message => {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = `message ${message.sender}`;
+                    
+                    const time = new Date(message.timestamp).toLocaleTimeString('it-IT', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    messageElement.innerHTML = `
+                        <div>${message.text}</div>
+                        <div class="message-time">${time}</div>
+                    `;
+
+                    container.appendChild(messageElement);
+                });
+
+                // Scroll to bottom
+                container.scrollTop = container.scrollHeight;
+            }
+
+            showChatLayout() {
+                document.getElementById('initialForm').style.display = 'none';
+                document.getElementById('chatLayout').style.display = 'flex';
+                
+                // Aggiorna header
+                document.getElementById('headerTitle').textContent = `Richiesta Progetto - ${this.currentUser.name}`;
+                
+                // Aggiorna sidebar
+                document.getElementById('sidebarName').textContent = this.currentUser.name;
+                document.getElementById('sidebarEmail').textContent = this.currentUser.email;
+                document.getElementById('sidebarDate').textContent = new Date(this.currentUser.registrationDate).toLocaleDateString('it-IT');
+                document.getElementById('sidebarMessages').textContent = this.messages.length;
+            }
+
+            updateSidebar() {
+                document.getElementById('sidebarMessages').textContent = this.messages.length;
+            }
+        }
+
+        // Funzioni globali
+        function sendMessage() {
+            if (chatSystem) {
+                chatSystem.sendMessage();
+            }
+        }
+
+        function goBackHome() {
+            if (confirm('Sei sicuro di voler tornare alla homepage? La chat verrà salvata.')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Inizializzazione
+        let chatSystem;
+        document.addEventListener('DOMContentLoaded', function() {
+            chatSystem = new ChatSystem();
+        });
+    </script>
+</body>
+</html> 

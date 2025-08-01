@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Cliente - MatcHome</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .chat-container {
+            display: flex;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .client-info {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .client-info h3 {
+            margin: 0 0 15px 0;
+            color: #00ff88;
+            font-size: 18px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .info-label {
+            color: #888;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Main Chat Area */
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-header h2 {
+            margin: 0;
+            color: #00ff88;
+            font-size: 24px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 15px;
+            border-radius: 12px;
+            position: relative;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            color: #000;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message.bot {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            align-self: flex-start;
+        }
+
+        .message-time {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .chat-input-area {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .message-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 15px 20px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .message-input:focus {
+            border-color: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            color: #000;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .send-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chat-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 200px;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+        }
+
+        /* Scrollbar personalizzata */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #00ccff 0%, #00ff88 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor personalizzato -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-trail"></div>
+
+    <div class="chat-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="client-info">
+                <h3><i class="fas fa-user"></i> Info Cliente</h3>
+                <div class="info-item">
+                    <div class="info-label">Nome:</div>
+                    <div class="info-value" id="clientName">Caricamento...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Email:</div>
+                    <div class="info-value" id="clientEmail">Caricamento...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Data Registrazione:</div>
+                    <div class="info-value" id="registrationDate">Caricamento...</div>
+                </div>
+            </div>
+            <button class="back-button" onclick="goBackHome()">
+                <i class="fas fa-arrow-left"></i> Torna alla Home
+            </button>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="chat-main">
+            <div class="chat-header">
+                <h2><i class="fas fa-comments"></i> Chat di Supporto</h2>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- I messaggi verranno aggiunti qui dinamicamente -->
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" 
+                       class="message-input" 
+                       id="messageInput" 
+                       placeholder="Scrivi il tuo messaggio..."
+                       onkeypress="handleKeyPress(event)">
+                <button class="send-button" id="sendButton" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cursor personalizzato
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorTrail = document.querySelector('.cursor-trail');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                cursorTrail.style.left = e.clientX + 'px';
+                cursorTrail.style.top = e.clientY + 'px';
+            }, 100);
+        });
+
+        // Effetti hover per il cursore
+        document.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'scale(1.5)';
+            cursorTrail.style.transform = 'scale(1.2)';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'scale(1)';
+            cursorTrail.style.transform = 'scale(1)';
+        });
+
+        // Effetti hover per elementi interattivi
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.matches('button, .back-button, .send-button')) {
+                cursor.style.transform = 'scale(2)';
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.matches('button, .back-button, .send-button')) {
+                cursor.style.transform = 'scale(1.5)';
+            }
+        });
+
+        // Chat System
+        class ClientChatSystem {
+            constructor() {
+                this.clientName = '';
+                this.clientEmail = '';
+                this.registrationDate = '';
+                this.messages = [];
+                this.init();
+            }
+
+            init() {
+                this.loadClientData();
+                this.loadMessages();
+                this.addWelcomeMessage();
+                this.setupEventListeners();
+            }
+
+            loadClientData() {
+                this.clientName = localStorage.getItem('clientName') || 'Cliente';
+                this.clientEmail = localStorage.getItem('clientEmail') || 'cliente@email.com';
+                this.registrationDate = localStorage.getItem('registrationDate') || new Date().toLocaleDateString();
+
+                // Aggiorna l'interfaccia
+                document.getElementById('clientName').textContent = this.clientName;
+                document.getElementById('clientEmail').textContent = this.clientEmail;
+                document.getElementById('registrationDate').textContent = this.registrationDate;
+
+                // Aggiorna il titolo della chat
+                document.querySelector('.chat-header h2').innerHTML = 
+                    `<i class="fas fa-comments"></i> Chat - ${this.clientName}`;
+            }
+
+            loadMessages() {
+                const savedMessages = localStorage.getItem(`chat_messages_${this.clientEmail}`);
+                if (savedMessages) {
+                    this.messages = JSON.parse(savedMessages);
+                    this.renderMessages();
+                }
+            }
+
+            saveMessages() {
+                localStorage.setItem(`chat_messages_${this.clientEmail}`, JSON.stringify(this.messages));
+            }
+
+            addMessage(text, sender, timestamp = new Date()) {
+                const message = {
+                    text,
+                    sender,
+                    timestamp: timestamp.toISOString()
+                };
+                this.messages.push(message);
+                this.saveMessages();
+                this.renderMessages();
+            }
+
+            renderMessages() {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
+
+                this.messages.forEach(message => {
+                    const messageElement = this.createMessageElement(message);
+                    chatMessages.appendChild(messageElement);
+                });
+
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            createMessageElement(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${message.sender}`;
+                
+                const time = new Date(message.timestamp).toLocaleTimeString('it-IT', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                messageDiv.innerHTML = `
+                    <div>${message.text}</div>
+                    <div class="message-time">${time}</div>
+                `;
+
+                return messageDiv;
+            }
+
+            addWelcomeMessage() {
+                if (this.messages.length === 0) {
+                    this.addMessage(
+                        `Ciao ${this.clientName}! 👋 Benvenuto nella chat di supporto. Come posso aiutarti oggi?`,
+                        'bot'
+                    );
+                }
+            }
+
+            setupEventListeners() {
+                const messageInput = document.getElementById('messageInput');
+                const sendButton = document.getElementById('sendButton');
+
+                messageInput.addEventListener('input', () => {
+                    sendButton.disabled = !messageInput.value.trim();
+                });
+            }
+
+            sendUserMessage(text) {
+                this.addMessage(text, 'user');
+                
+                // Simula risposta del bot
+                setTimeout(() => {
+                    this.generateBotResponse(text);
+                }, 1000);
+            }
+
+            generateBotResponse(userMessage) {
+                const responses = [
+                    "Grazie per il tuo messaggio! Il nostro team ti risponderà al più presto.",
+                    "Ho ricevuto la tua richiesta. Un nostro esperto la esaminerà e ti contatterà presto.",
+                    "Perfetto! Ho preso nota della tua domanda. Ti aggiorniamo appena possibile.",
+                    "Grazie per averci contattato! La tua richiesta è stata registrata nel nostro sistema.",
+                    "Ho inoltrato la tua richiesta al team competente. Ti risponderemo entro 24 ore."
+                ];
+
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                this.addMessage(randomResponse, 'bot');
+            }
+        }
+
+        // Inizializzazione
+        let chatSystem;
+        document.addEventListener('DOMContentLoaded', function() {
+            chatSystem = new ClientChatSystem();
+        });
+
+        // Funzioni globali
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const text = messageInput.value.trim();
+            
+            if (text && chatSystem) {
+                chatSystem.sendUserMessage(text);
+                messageInput.value = '';
+                document.getElementById('sendButton').disabled = true;
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function goBackHome() {
+            if (confirm('Sei sicuro di voler tornare alla home?')) {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html> 

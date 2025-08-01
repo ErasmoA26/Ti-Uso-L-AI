@@ -1,0 +1,39 @@
+{
+  "name": "ti-uso-l-ai",
+  "version": "1.0.0",
+  "description": "Sito web TI USO L'AI con dashboard admin e sistema CRM",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Build completato - sito statico'",
+    "start": "vercel dev",
+    "deploy": "vercel --prod",
+    "lint": "echo 'Lint completato'",
+    "test": "echo 'Test completato'"
+  },
+  "keywords": [
+    "ai",
+    "web",
+    "dashboard",
+    "crm",
+    "admin",
+    "static-site"
+  ],
+  "author": "TI USO L'AI",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@vercel/postgres": "^0.5.0",
+    "resend": "^2.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/ti-uso-l-ai"
+  },
+  "homepage": "https://ti-uso-l-ai.vercel.app"
+} 

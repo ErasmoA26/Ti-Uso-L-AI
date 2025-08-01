@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richiedi il Tuo Progetto - MatcHome</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .request-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .request-header {
+            margin-bottom: 2rem;
+        }
+
+        .request-header h1 {
+            color: #00ff88;
+            font-size: 2.5rem;
+            margin: 0 0 1rem 0;
+            font-weight: 700;
+        }
+
+        .request-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .request-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: #00ff88;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .back-btn:hover {
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .success-message {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.2), rgba(40, 167, 69, 0.1));
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        .success-message i {
+            font-size: 1.5rem;
+        }
+
+        /* Cursor personalizzato */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: rgba(0, 255, 136, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.2s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .request-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .request-header h1 {
+                font-size: 2rem;
+            }
+
+            .request-header p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor personalizzato -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-trail"></div>
+
+    <div class="request-container">
+        <div class="request-header">
+            <h1>Richiedi il Tuo Progetto</h1>
+            <p>Dimmi cosa ti serve e lo realizzo per te con l'AI. Semplice, veloce, efficace.</p>
+        </div>
+
+        <form class="request-form" id="requestForm" onsubmit="handleRequestSubmit(event)">
+            <div class="form-group">
+                <label for="name">Nome Completo</label>
+                <input type="text" id="name" name="name" placeholder="Il tuo nome" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="La tua email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Cosa ti serve?</label>
+                <textarea id="message" name="message" placeholder="Descrivi il tuo progetto, cosa vuoi realizzare, le tue esigenze..." required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="btn-text">Invia Richiesta</span>
+                <span class="btn-loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Invio...
+                </span>
+            </button>
+        </form>
+
+        <button class="back-btn" onclick="goBackHome()">
+            <i class="fas fa-arrow-left"></i> Torna alla Home
+        </button>
+
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i>
+            <span>Richiesta inviata! Ti contatterò presto</span>
+        </div>
+    </div>
+
+    <script>
+        // Cursor personalizzato
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorTrail = document.querySelector('.cursor-trail');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                cursorTrail.style.left = e.clientX + 'px';
+                cursorTrail.style.top = e.clientY + 'px';
+            }, 100);
+        });
+
+        // Effetti hover per il cursore
+        document.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'scale(1.5)';
+            cursorTrail.style.transform = 'scale(1.2)';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'scale(1)';
+            cursorTrail.style.transform = 'scale(1)';
+        });
+
+        // Effetti hover per elementi interattivi
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.matches('button, input, textarea')) {
+                cursor.style.transform = 'scale(2)';
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.matches('button, input, textarea')) {
+                cursor.style.transform = 'scale(1.5)';
+            }
+        });
+
+        // Gestione form
+        function handleRequestSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const message = formData.get('message');
+            
+            // Mostra loading
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline-flex';
+            submitBtn.disabled = true;
+            
+            // Salva la richiesta
+            const request = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                message: message,
+                date: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            // Salva in localStorage
+            const requests = JSON.parse(localStorage.getItem('contactRequests') || '[]');
+            requests.push(request);
+            localStorage.setItem('contactRequests', JSON.stringify(requests));
+            
+            // Simula invio (1 secondo)
+            setTimeout(() => {
+                // Nascondi form e mostra successo
+                form.style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+                
+                // Reset form
+                form.reset();
+                
+                // Torna alla home dopo 3 secondi
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 3000);
+                
+            }, 1000);
+        }
+
+        function goBackHome() {
+            if (confirm('Sei sicuro di voler tornare alla home?')) {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html> 

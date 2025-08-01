@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Chat - Ti Uso L'AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Stili per il sistema CRM Chat */
+        .crm-system {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header CRM */
+        .crm-header {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-info h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .btn-back-home {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back-home:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+
+        /* Main Area */
+        .crm-main {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .crm-sidebar {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .client-info {
+            margin-bottom: 2rem;
+        }
+
+        .client-info h3 {
+            color: #00ff88;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            margin-bottom: 1rem;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 1rem;
+            border-radius: 12px;
+            position: relative;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            color: #000;
+            margin-left: auto;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        .message.user .message-time {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .message.bot .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Input Area */
+        .chat-input-area {
+            padding: 1.5rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #fff;
+            font-size: 1rem;
+            resize: none;
+            min-height: 50px;
+            max-height: 120px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-send {
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border: none;
+            color: #000;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            height: 50px;
+        }
+
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .crm-sidebar {
+                display: none;
+            }
+
+            .crm-header {
+                padding: 1rem;
+            }
+
+            .header-info h2 {
+                font-size: 1rem;
+            }
+
+            .messages-container {
+                padding: 1rem;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+
+            .chat-input-area {
+                padding: 1rem;
+            }
+
+            .input-container {
+                gap: 0.5rem;
+            }
+        }
+
+        /* Particelle di sfondo */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 0s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 1s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 2s; }
+        .particle:nth-child(10) { left: 95%; animation-delay: 3s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particelle di sfondo -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="crm-system">
+        <!-- Header -->
+        <div class="crm-header">
+            <div class="header-info">
+                <h2 id="headerTitle">CRM Chat</h2>
+                <p id="headerSubtitle">Chat in tempo reale</p>
+            </div>
+            <button class="btn-back-home" onclick="goBackHome()">
+                <i class="fas fa-home"></i>
+                Home
+            </button>
+        </div>
+
+        <!-- Main Area -->
+        <div class="crm-main">
+            <!-- Sidebar -->
+            <div class="crm-sidebar">
+                <div class="client-info">
+                    <h3>Informazioni Cliente</h3>
+                    <div class="info-item">
+                        <div class="info-label">Nome</div>
+                        <div class="info-value" id="sidebarName">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value" id="sidebarEmail">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Data Registrazione</div>
+                        <div class="info-value" id="sidebarDate">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Messaggi</div>
+                        <div class="info-value" id="sidebarMessages">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="chat-area">
+                <!-- Messages Container -->
+                <div class="messages-container" id="messagesContainer">
+                    <!-- I messaggi verranno aggiunti qui dinamicamente -->
+                </div>
+
+                <!-- Input Area -->
+                <div class="chat-input-area">
+                    <div class="input-container">
+                        <textarea 
+                            class="message-input" 
+                            id="messageInput" 
+                            placeholder="Scrivi il tuo messaggio..."
+                            rows="1"
+                        ></textarea>
+                        <button class="btn-send" id="sendButton" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Leggi dati utente da localStorage
+        const userName = localStorage.getItem('userName');
+        const userEmail = localStorage.getItem('userEmail');
+
+        // Se non registrato, torna al form
+        if (!userName || !userEmail) {
+            window.location.href = 'index.html';
+        }
+
+        class CRMChatSystem {
+            constructor() {
+                this.currentUser = {
+                    name: userName,
+                    email: userEmail,
+                    registrationDate: new Date().toISOString()
+                };
+                this.messages = [];
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadMessages();
+                this.updateUI();
+                this.addWelcomeMessage();
+            }
+
+            setupEventListeners() {
+                // Input messaggio
+                const messageInput = document.getElementById('messageInput');
+                const sendButton = document.getElementById('sendButton');
+
+                messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                messageInput.addEventListener('input', () => {
+                    // Auto-resize textarea
+                    messageInput.style.height = 'auto';
+                    messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
+                });
+
+                sendButton.addEventListener('click', () => {
+                    this.sendMessage();
+                });
+            }
+
+            loadMessages() {
+                const savedMessages = localStorage.getItem(`crmMessages_${userEmail}`);
+                this.messages = savedMessages ? JSON.parse(savedMessages) : [];
+                this.renderMessages();
+            }
+
+            saveMessages() {
+                localStorage.setItem(`crmMessages_${userEmail}`, JSON.stringify(this.messages));
+            }
+
+            sendMessage() {
+                const messageInput = document.getElementById('messageInput');
+                const message = messageInput.value.trim();
+
+                if (!message) return;
+
+                // Aggiungi messaggio utente
+                this.addUserMessage(message);
+
+                // Pulisci input
+                messageInput.value = '';
+                messageInput.style.height = 'auto';
+
+                // Simula risposta bot
+                setTimeout(() => {
+                    this.generateBotResponse(message);
+                }, 1000);
+
+                // Invia email (simulato)
+                this.sendEmailNotification(message);
+            }
+
+            addUserMessage(text) {
+                const message = {
+                    id: Date.now(),
+                    text: text,
+                    sender: 'user',
+                    timestamp: new Date().toISOString()
+                };
+
+                this.messages.push(message);
+                this.saveMessages();
+                this.renderMessages();
+                this.updateSidebar();
+            }
+
+            addBotMessage(text) {
+                const message = {
+                    id: Date.now(),
+                    text: text,
+                    sender: 'bot',
+                    timestamp: new Date().toISOString()
+                };
+
+                this.messages.push(message);
+                this.saveMessages();
+                this.renderMessages();
+                this.updateSidebar();
+            }
+
+            addWelcomeMessage() {
+                this.addBotMessage(`Ciao ${userName}! 👋 Grazie per esserti registrato. Sono qui per aiutarti con il tuo progetto. Dimmi pure cosa ti serve!`);
+            }
+
+            generateBotResponse(userMessage) {
+                const message = userMessage.toLowerCase();
+                
+                // Risposte pre-programmate
+                let response = '';
+                
+                if (message.includes('ciao') || message.includes('salve')) {
+                    response = 'Ciao! Come posso aiutarti con il tuo progetto?';
+                } else if (message.includes('costo') || message.includes('prezzo')) {
+                    response = 'I costi variano in base alla complessità del progetto. Puoi dirmi di più su quello che hai in mente?';
+                } else if (message.includes('tempo') || message.includes('quando')) {
+                    response = 'I tempi di realizzazione dipendono dalla complessità. Generalmente parliamo di 1-3 settimane per progetti standard.';
+                } else if (message.includes('sito') || message.includes('web')) {
+                    response = 'Perfetto! Siti web sono la nostra specialità. Che tipo di sito ti serve? E-commerce, portfolio, aziendale?';
+                } else if (message.includes('app') || message.includes('mobile')) {
+                    response = 'Ottimo! Le app mobile sono molto richieste. Hai già un\'idea delle funzionalità principali?';
+                } else if (message.includes('ai') || message.includes('intelligenza')) {
+                    response = 'L\'AI può rivoluzionare il tuo business! Automazioni, chatbot, analisi dati... dimmi cosa ti interessa di più.';
+                } else {
+                    response = 'Interessante! Grazie per avermi raccontato del tuo progetto. Posso aiutarti a definire meglio i dettagli. Hai domande specifiche?';
+                }
+
+                this.addBotMessage(response);
+            }
+
+            sendEmailNotification(message) {
+                // Simula invio email
+                console.log(`Email inviata: Nuovo messaggio da ${userName} - ${userEmail}: ${message}`);
+                
+                // In un'implementazione reale, qui andrebbe la chiamata API per inviare l'email
+                // fetch('/api/send-email', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         from: userEmail,
+                //         name: userName,
+                //         message: message
+                //     })
+                // });
+            }
+
+            renderMessages() {
+                const container = document.getElementById('messagesContainer');
+                container.innerHTML = '';
+
+                this.messages.forEach(message => {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = `message ${message.sender}`;
+                    
+                    const time = new Date(message.timestamp).toLocaleTimeString('it-IT', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    messageElement.innerHTML = `
+                        <div>${message.text}</div>
+                        <div class="message-time">${time}</div>
+                    `;
+
+                    container.appendChild(messageElement);
+                });
+
+                // Scroll to bottom
+                container.scrollTop = container.scrollHeight;
+            }
+
+            updateUI() {
+                // Aggiorna header
+                document.getElementById('headerTitle').textContent = `CRM Chat - ${userName}`;
+                
+                // Aggiorna sidebar
+                document.getElementById('sidebarName').textContent = userName;
+                document.getElementById('sidebarEmail').textContent = userEmail;
+                document.getElementById('sidebarDate').textContent = new Date().toLocaleDateString('it-IT');
+                this.updateSidebar();
+            }
+
+            updateSidebar() {
+                document.getElementById('sidebarMessages').textContent = this.messages.length;
+            }
+        }
+
+        // Funzioni globali
+        function sendMessage() {
+            if (crmChatSystem) {
+                crmChatSystem.sendMessage();
+            }
+        }
+
+        function goBackHome() {
+            if (confirm('Sei sicuro di voler tornare alla homepage? La chat verrà salvata.')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Inizializzazione
+        let crmChatSystem;
+        document.addEventListener('DOMContentLoaded', function() {
+            crmChatSystem = new CRMChatSystem();
+        });
+    </script>
+</body>
+</html> 

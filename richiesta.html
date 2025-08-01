@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richiedi Progetto - Ti Uso L'AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Stili specifici per la pagina richiesta */
+        .request-form-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        .request-form-card {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.1));
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .welcome-banner h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-banner p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .skip-button {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .skip-button:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .request-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border: none;
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-back {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-back:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .request-form-container {
+                padding: 1rem;
+            }
+
+            .request-form-card {
+                padding: 2rem;
+            }
+
+            .form-header h1 {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-submit,
+            .btn-back {
+                width: 100%;
+            }
+        }
+
+        /* Particelle di sfondo */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 0s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 1s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 2s; }
+        .particle:nth-child(10) { left: 95%; animation-delay: 3s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particelle di sfondo -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="request-form-container">
+        <div class="request-form-card">
+            <!-- Banner di benvenuto -->
+            <div class="welcome-banner" id="welcomeBanner">
+                <h2>🎉 Benvenuto!</h2>
+                <p>Ora puoi richiedere il tuo primo progetto personalizzato</p>
+                <button class="skip-button" onclick="skipToHome()">
+                    <i class="fas fa-home"></i>
+                    Salta per ora
+                </button>
+            </div>
+
+            <div class="form-header">
+                <h1>Richiedi il Tuo Progetto</h1>
+                <p>Compila il form per iniziare il tuo progetto AI personalizzato</p>
+            </div>
+
+            <form class="request-form" id="requestForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectName">Nome Progetto *</label>
+                        <input type="text" id="projectName" name="projectName" placeholder="Inserisci il nome del progetto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectType">Tipo Progetto *</label>
+                        <select id="projectType" name="projectType" required>
+                            <option value="">Seleziona tipo progetto</option>
+                            <option value="sito-web">Sito Web</option>
+                            <option value="app-mobile">App Mobile</option>
+                            <option value="ecommerce">E-commerce</option>
+                            <option value="chatbot">Chatbot</option>
+                            <option value="automazione">Automazione AI</option>
+                            <option value="altro">Altro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDescription">Descrizione Dettagliata *</label>
+                    <textarea id="projectDescription" name="projectDescription" placeholder="Descrivi in dettaglio il tuo progetto, le funzionalità richieste, i tuoi obiettivi e il target di riferimento..." required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectBudget">Budget *</label>
+                        <select id="projectBudget" name="projectBudget" required>
+                            <option value="">Seleziona budget</option>
+                            <option value="500-1000">€500 - €1.000</option>
+                            <option value="1000-3000">€1.000 - €3.000</option>
+                            <option value="3000-5000">€3.000 - €5.000</option>
+                            <option value="5000+">€5.000+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deliveryDate">Data Desiderata Consegna *</label>
+                        <input type="date" id="deliveryDate" name="deliveryDate" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="clientEmail">Email Cliente *</label>
+                    <input type="email" id="clientEmail" name="clientEmail" placeholder="La tua email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Priorità</label>
+                    <select id="priority" name="priority">
+                        <option value="normal">Normale</option>
+                        <option value="urgent">Urgente</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-back" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i>
+                        Torna Indietro
+                    </button>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i>
+                        Invia Richiesta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Controlla se l'utente è loggato
+        function checkUserAuth() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Personalizza il messaggio di benvenuto
+            const welcomeBanner = document.getElementById('welcomeBanner');
+            const userName = currentUser.fullName.split(' ')[0];
+            welcomeBanner.querySelector('h2').textContent = `🎉 Benvenuto, ${userName}!`;
+            
+            // Pre-compila l'email se disponibile
+            const emailInput = document.getElementById('clientEmail');
+            if (emailInput && currentUser.email) {
+                emailInput.value = currentUser.email;
+            }
+        }
+
+        // Gestione form submit
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simula invio
+            const submitBtn = this.querySelector('.btn-submit');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Invio in corso...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                // Salva la richiesta nel localStorage
+                saveRequest();
+                
+                alert('Richiesta inviata con successo! Ti contatteremo presto.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Reindirizza alla dashboard
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        });
+
+        // Salva la richiesta
+        function saveRequest() {
+            const formData = new FormData(document.getElementById('requestForm'));
+            const request = {
+                id: `#R${Date.now()}`,
+                title: formData.get('projectName'),
+                type: formData.get('projectType'),
+                description: formData.get('projectDescription'),
+                budget: formData.get('projectBudget'),
+                deliveryDate: formData.get('deliveryDate'),
+                priority: formData.get('priority'),
+                email: formData.get('clientEmail'),
+                status: 'open',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            // Salva nelle richieste dell'utente
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (currentUser) {
+                const userRequests = JSON.parse(localStorage.getItem(`requests_${currentUser.id}`) || '[]');
+                userRequests.push(request);
+                localStorage.setItem(`requests_${currentUser.id}`, JSON.stringify(userRequests));
+            }
+        }
+
+        // Funzione per tornare indietro
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // Funzione per saltare alla homepage
+        function skipToHome() {
+            window.location.href = 'index.html';
+        }
+
+        // Setup date picker
+        function setupDatePicker() {
+            const deliveryDate = document.getElementById('deliveryDate');
+            if (deliveryDate) {
+                const today = new Date();
+                const minDate = new Date(today.getTime() + (24 * 60 * 60 * 1000)); // Tomorrow
+                deliveryDate.min = minDate.toISOString().split('T')[0];
+            }
+        }
+
+        // Effetti di interazione
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Inizializzazione
+        window.addEventListener('load', function() {
+            checkUserAuth();
+            setupDatePicker();
+            
+            // Animazione di entrata
+            const formCard = document.querySelector('.request-form-card');
+            formCard.style.opacity = '0';
+            formCard.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                formCard.style.transition = 'all 0.6s ease-out';
+                formCard.style.opacity = '1';
+                formCard.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html> 

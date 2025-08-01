@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Ti Uso L'AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Cursor personalizzato -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-trail"></div>
+    
+    <!-- Particelle di sfondo -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Header Admin -->
+    <header class="dashboard-header admin-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-bold">TI USO</span>
+                <span class="logo-light">L'AI</span>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+            <div class="admin-menu">
+                <div class="admin-info">
+                    <span class="admin-name">Admin Dashboard</span>
+                    <span class="admin-role">Gestione Sistema</span>
+                </div>
+                <button class="btn-profile" onclick="toggleAdminDropdown()">
+                    <i class="fas fa-user-shield"></i>
+                </button>
+                <div class="user-dropdown" id="adminDropdown">
+                    <a href="#" onclick="openSettingsModal()">
+                        <i class="fas fa-cog"></i>
+                        Impostazioni
+                    </a>
+                    <a href="#" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            <!-- Sezione Principale -->
+            <div class="dashboard-hero">
+                <h1>Admin Dashboard</h1>
+                <p>Gestione completa del sistema ticket e clienti</p>
+            </div>
+
+            <!-- Statistiche Admin -->
+            <div class="stats-grid admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="totalTicketsAdmin">0</span>
+                        <span class="stat-label">Ticket Totali</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="activeClients">0</span>
+                        <span class="stat-label">Clienti Attivi</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="pendingTickets">0</span>
+                        <span class="stat-label">In Attesa</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="monthlyRevenue">€0</span>
+                        <span class="stat-label">Fatturato Mese</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grafici e Statistiche -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h3>Ticket per Mese</h3>
+                    <canvas id="ticketsChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Stati Ticket</h3>
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Gestione Ticket -->
+            <div class="tickets-section admin-tickets">
+                <div class="section-header">
+                    <h2>Gestione Ticket</h2>
+                    <div class="admin-actions">
+                        <button class="btn-admin-action" onclick="exportTickets()">
+                            <i class="fas fa-download"></i>
+                            Esporta
+                        </button>
+                        <button class="btn-admin-action" onclick="openBulkActions()">
+                            <i class="fas fa-tasks"></i>
+                            Azioni di Massa
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <input type="text" id="ticketSearch" placeholder="Cerca ticket...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">Tutti</button>
+                        <button class="filter-tab" data-filter="open">Aperti</button>
+                        <button class="filter-tab" data-filter="in-progress">In Lavorazione</button>
+                        <button class="filter-tab" data-filter="completed">Completati</button>
+                        <button class="filter-tab" data-filter="urgent">Urgenti</button>
+                    </div>
+                </div>
+                
+                <div class="tickets-table-container">
+                    <table class="tickets-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAll"></th>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Titolo</th>
+                                <th>Tipo</th>
+                                <th>Priorità</th>
+                                <th>Stato</th>
+                                <th>Data Creazione</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ticketsTableBody">
+                            <!-- I ticket verranno caricati dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Lista Clienti -->
+            <div class="clients-section">
+                <div class="section-header">
+                    <h2>Clienti Attivi</h2>
+                    <button class="btn-admin-action" onclick="openClientModal()">
+                        <i class="fas fa-user-plus"></i>
+                        Aggiungi Cliente
+                    </button>
+                </div>
+                
+                <div class="clients-grid" id="clientsGrid">
+                    <!-- I clienti verranno caricati dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Dettagli Ticket -->
+    <div class="modal-overlay" id="ticketDetailsModal">
+        <div class="modal-section ticket-details-modal">
+            <div class="modal-header">
+                <h2>Dettagli Ticket</h2>
+                <button class="modal-close" onclick="closeTicketDetailsModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div id="ticketDetailsContent">
+                    <!-- I dettagli del ticket verranno caricati dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Azioni di Massa -->
+    <div class="modal-overlay" id="bulkActionsModal">
+        <div class="modal-section bulk-actions-modal">
+            <div class="modal-header">
+                <h2>Azioni di Massa</h2>
+                <button class="modal-close" onclick="closeBulkActionsModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="bulk-actions-form">
+                    <div class="form-group">
+                        <label>Ticket Selezionati: <span id="selectedCount">0</span></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="bulkAction">Azione</label>
+                        <select id="bulkAction">
+                            <option value="">Seleziona azione</option>
+                            <option value="status">Cambia Stato</option>
+                            <option value="priority">Cambia Priorità</option>
+                            <option value="assign">Assegna</option>
+                            <option value="delete">Elimina</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="bulkActionOptions" style="display: none;">
+                        <!-- Le opzioni specifiche verranno caricate dinamicamente -->
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeBulkActionsModal()">
+                            Annulla
+                        </button>
+                        <button type="button" class="btn-submit" onclick="executeBulkAction()">
+                            <i class="fas fa-check"></i>
+                            Applica
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Impostazioni -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-section settings-modal">
+            <div class="modal-header">
+                <h2>Impostazioni Sistema</h2>
+                <button class="modal-close" onclick="closeSettingsModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <form id="settingsForm" class="settings-form">
+                    <div class="form-group">
+                        <label for="emailNotifications">Notifiche Email</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="emailNotifications" value="enabled" checked>
+                                <span class="radio-custom"></span>
+                                Abilitate
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="emailNotifications" value="disabled">
+                                <span class="radio-custom"></span>
+                                Disabilitate
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="autoAssign">Assegnazione Automatica</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="autoAssign" value="enabled">
+                                <span class="radio-custom"></span>
+                                Abilitata
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="autoAssign" value="disabled" checked>
+                                <span class="radio-custom"></span>
+                                Disabilitata
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ticketPrefix">Prefisso Ticket</label>
+                        <input type="text" id="ticketPrefix" name="ticketPrefix" value="T" maxlength="3">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeSettingsModal()">
+                            Annulla
+                        </button>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-save"></i>
+                            Salva Impostazioni
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html> 

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Cliente - Ti Uso L'AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Cursor personalizzato -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-trail"></div>
+    
+    <!-- Particelle di sfondo -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Header Dashboard -->
+    <header class="dashboard-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-bold">TI USO</span>
+                <span class="logo-light">L'AI</span>
+            </div>
+            <div class="user-menu">
+                <div class="user-info">
+                    <span class="user-name">Benvenuto, Cliente</span>
+                    <span class="user-email">cliente@email.com</span>
+                </div>
+                <button class="btn-profile" onclick="toggleUserDropdown()">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="user-dropdown" id="userDropdown">
+                    <a href="#" onclick="openProfileModal()">
+                        <i class="fas fa-user-edit"></i>
+                        Modifica Profilo
+                    </a>
+                    <a href="#" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            <!-- Sezione Principale -->
+            <div class="dashboard-hero">
+                <h1>Dashboard Progetti</h1>
+                <p>Gestisci le tue richieste e progetti in corso</p>
+                <button class="btn-new-ticket" onclick="openNewTicketModal()">
+                    <i class="fas fa-plus"></i>
+                    Apri Nuovo Ticket
+                </button>
+            </div>
+
+            <!-- Statistiche Rapide -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="totalTickets">0</span>
+                        <span class="stat-label">Ticket Totali</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="openTickets">0</span>
+                        <span class="stat-label">In Attesa</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="inProgressTickets">0</span>
+                        <span class="stat-label">In Lavorazione</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="completedTickets">0</span>
+                        <span class="stat-label">Completati</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista Ticket -->
+            <div class="tickets-section">
+                <div class="section-header">
+                    <h2>I Tuoi Ticket</h2>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">Tutti</button>
+                        <button class="filter-tab" data-filter="open">Aperti</button>
+                        <button class="filter-tab" data-filter="in-progress">In Lavorazione</button>
+                        <button class="filter-tab" data-filter="completed">Completati</button>
+                    </div>
+                </div>
+                
+                <div class="tickets-list" id="ticketsList">
+                    <!-- I ticket verranno caricati dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Nuovo Ticket -->
+    <div class="modal-overlay" id="newTicketModal">
+        <div class="modal-section ticket-modal">
+            <div class="modal-header">
+                <h2>Richiedi Nuovo Progetto</h2>
+                <button class="modal-close" onclick="closeNewTicketModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <form id="newTicketForm" class="ticket-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="projectType">Tipo Progetto *</label>
+                            <select id="projectType" name="projectType" required>
+                                <option value="">Seleziona tipo progetto</option>
+                                <option value="website">Sito Web</option>
+                                <option value="mobile-app">App Mobile</option>
+                                <option value="ai-automation">Automazione AI</option>
+                                <option value="chatbot">Chatbot</option>
+                                <option value="ecommerce">E-commerce</option>
+                                <option value="other">Altro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectTitle">Nome Progetto *</label>
+                            <input type="text" id="projectTitle" name="projectTitle" placeholder="Inserisci il nome del progetto" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="projectDescription">Descrizione Dettagliata *</label>
+                        <textarea id="projectDescription" name="projectDescription" rows="6" placeholder="Descrivi in dettaglio cosa ti serve, le funzionalità richieste, il target di riferimento..." required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="budget">Budget Disponibile *</label>
+                            <select id="budget" name="budget" required>
+                                <option value="">Seleziona budget</option>
+                                <option value="500-1000">€500 - €1.000</option>
+                                <option value="1000-3000">€1.000 - €3.000</option>
+                                <option value="3000-5000">€3.000 - €5.000</option>
+                                <option value="5000+">€5.000+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="priority">Priorità *</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="priority" value="normal" checked>
+                                    <span class="radio-custom"></span>
+                                    Normale
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="priority" value="urgent">
+                                    <span class="radio-custom"></span>
+                                    Urgente
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryDate">Data Desiderata Consegna *</label>
+                            <input type="date" id="deliveryDate" name="deliveryDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fileUpload">File di Riferimento</label>
+                            <input type="file" id="fileUpload" name="fileUpload" multiple>
+                            <small>Puoi caricare documenti, immagini o altri file di riferimento</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeNewTicketModal()">
+                            Annulla
+                        </button>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-paper-plane"></i>
+                            Invia Richiesta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Profilo -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-section profile-modal">
+            <div class="modal-header">
+                <h2>Modifica Profilo</h2>
+                <button class="modal-close" onclick="closeProfileModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <form id="profileForm" class="profile-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profileName">Nome Completo *</label>
+                            <input type="text" id="profileName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail">Email *</label>
+                            <input type="email" id="profileEmail" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profilePhone">Telefono</label>
+                            <input type="tel" id="profilePhone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileCompany">Azienda</label>
+                            <input type="text" id="profileCompany" name="company">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profileAddress">Indirizzo</label>
+                        <textarea id="profileAddress" name="address" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeProfileModal()">
+                            Annulla
+                        </button>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-save"></i>
+                            Salva Modifiche
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html> 
