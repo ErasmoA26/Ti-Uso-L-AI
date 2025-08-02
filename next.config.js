@@ -12,7 +12,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/.*',
         headers: [
           {
             key: 'X-Content-Type-Options',
@@ -33,7 +33,7 @@ const nextConfig = {
         ]
       },
       {
-        source: '/admin(.*)',
+        source: '/admin.*',
         headers: [
           {
             key: 'Cache-Control',
@@ -42,7 +42,7 @@ const nextConfig = {
         ]
       },
       {
-        source: '/(.*\\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))',
+        source: '/.*\\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$',
         headers: [
           {
             key: 'Cache-Control',
