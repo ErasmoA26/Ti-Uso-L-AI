@@ -4,9 +4,9 @@
   "description": "Sito web TI USO L'AI con dashboard admin e sistema CRM",
   "main": "index.html",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'Build completato - sito statico'",
-    "start": "vercel dev",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "deploy": "vercel --prod",
     "lint": "echo 'Lint completato'",
     "test": "echo 'Test completato'"
