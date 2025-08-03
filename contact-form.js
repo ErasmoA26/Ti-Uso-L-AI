@@ -175,17 +175,10 @@ class ContactForm {
         this.setLoading(true);
         
         try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
+            // Usa la funzione globale per gestire la richiesta
+            const result = await window.handleContactRequest(data);
             
-            const result = await response.json();
-            
-            if (response.ok) {
+            if (result.success) {
                 this.showMessage('Richiesta inviata con successo! Ti risponderemo presto.', 'success');
                 this.form.reset();
             } else {

@@ -26,33 +26,15 @@ class RequestsManager {
         this.error = null;
 
         try {
-            let response;
+            // Usa la funzione globale per ottenere le richieste
+            const result = await window.getRequests();
             
-            if (this.supabase) {
-                // Usa Supabase client se disponibile
-                const { data, error } = await this.supabase
-                    .from('requests')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) throw error;
-                response = data;
+            if (result.success) {
+                this.requests = result.requests || [];
+                this.updateUnreadCount();
             } else {
-                // Fallback con fetch API
-                const res = await fetch('/api/admin/requests', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-                
-                if (!res.ok) throw new Error('Errore nel caricamento delle richieste');
-                const data = await res.json();
-                response = data.requests;
+                throw new Error(result.error || 'Errore nel caricamento delle richieste');
             }
-
-            this.requests = response || [];
-            this.updateUnreadCount();
             
         } catch (error) {
             console.error('Errore nel caricamento delle richieste:', error);
@@ -64,39 +46,20 @@ class RequestsManager {
 
     async updateRequestStatus(requestId, newStatus) {
         try {
-            let success = false;
+            // Usa la funzione globale per aggiornare lo status
+            const result = await window.updateRequestStatus(requestId, newStatus);
             
-            if (this.supabase) {
-                const { error } = await this.supabase
-                    .from('requests')
-                    .update({ status: newStatus })
-                    .eq('id', requestId);
-                
-                if (error) throw error;
-                success = true;
-            } else {
-                const res = await fetch(`/api/admin/requests/${requestId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                
-                if (!res.ok) throw new Error('Errore nell\'aggiornamento');
-                success = true;
-            }
-
-            if (success) {
+            if (result.success) {
                 // Aggiorna la richiesta locale
                 const requestIndex = this.requests.findIndex(r => r.id === requestId);
                 if (requestIndex !== -1) {
                     this.requests[requestIndex].status = newStatus;
                     this.updateUnreadCount();
                 }
+                return true;
+            } else {
+                throw new Error(result.error || 'Errore nell\'aggiornamento');
             }
-
-            return success;
         } catch (error) {
             console.error('Errore nell\'aggiornamento dello status:', error);
             return false;

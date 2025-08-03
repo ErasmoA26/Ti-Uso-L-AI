@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sistema Richieste - Ti Uso L'AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Script per il sistema di richieste -->
+    <script src="api/contact-handler.js"></script>
+    <script src="contact-form.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-bold">TI USO</span>
+                <span class="logo-light">L'AI</span>
+            </div>
+            <nav class="main-nav">
+                <a href="/">Home</a>
+                <a href="/admin">Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="test-section">
+                <h1>Test Sistema Richieste</h1>
+                <p>Questa pagina testa il sistema di richieste. Compila il form e verifica che appaia nella dashboard admin.</p>
+                
+                <div class="test-info">
+                    <h3>Come testare:</h3>
+                    <ol>
+                        <li>Compila il form qui sotto</li>
+                        <li>Invia la richiesta</li>
+                        <li>Vai alla <a href="/admin" target="_blank">Dashboard Admin</a></li>
+                        <li>Verifica che la richiesta appaia nella lista</li>
+                    </ol>
+                </div>
+                
+                <div class="contact-form-container">
+                    <!-- Il form di contatto verrà inserito qui -->
+                    <div id="contact-form-container"></div>
+                </div>
+                
+                <div class="test-results">
+                    <h3>Risultati Test:</h3>
+                    <div id="test-results">
+                        <p>Nessun test eseguito ancora.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2024 Ti Uso L'AI. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Inizializza il form di contatto quando la pagina è caricata
+        document.addEventListener('DOMContentLoaded', function() {
+            // Crea il form di contatto
+            const contactForm = new ContactForm('contact-form-container');
+            
+            // Test delle funzioni API
+            console.log('Test API functions:');
+            console.log('handleContactRequest:', typeof window.handleContactRequest);
+            console.log('getRequests:', typeof window.getRequests);
+            console.log('updateRequestStatus:', typeof window.updateRequestStatus);
+            
+            // Test di connessione a Supabase
+            testSupabaseConnection();
+        });
+        
+        // Funzione per testare la connessione a Supabase
+        async function testSupabaseConnection() {
+            try {
+                const result = await window.getRequests();
+                console.log('Test Supabase connection:', result);
+                
+                const testResults = document.getElementById('test-results');
+                if (result.success) {
+                    testResults.innerHTML = `
+                        <div style="color: green; padding: 1rem; background: #d4edda; border-radius: 8px; margin: 1rem 0;">
+                            ✅ Connessione a Supabase OK<br>
+                            Richieste trovate: ${result.requests.length}
+                        </div>
+                    `;
+                } else {
+                    testResults.innerHTML = `
+                        <div style="color: red; padding: 1rem; background: #f8d7da; border-radius: 8px; margin: 1rem 0;">
+                            ❌ Errore connessione a Supabase<br>
+                            Errore: ${result.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Errore test connessione:', error);
+                const testResults = document.getElementById('test-results');
+                testResults.innerHTML = `
+                    <div style="color: red; padding: 1rem; background: #f8d7da; border-radius: 8px; margin: 1rem 0;">
+                        ❌ Errore test connessione<br>
+                        Errore: ${error.message}
+                    </div>
+                `;
+            }
+        }
+    </script>
+
+    <style>
+        /* Stili per la pagina di test */
+        .test-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .test-section h1 {
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .test-section p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .test-info {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .test-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .test-info ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .test-info li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-info a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .test-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .contact-form-container {
+            margin: 2rem 0;
+        }
+        
+        .test-results {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-results h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .test-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</body>
+</html> 
